@@ -87,6 +87,9 @@ void Log::logv(Level level, const char *format, va_list ap)
     struct iovec iovec[6] = { };
     const char *color;
     int n = 0;
+#ifndef LINE_MAX
+# define LINE_MAX   2048
+#endif
     char buffer[LINE_MAX];
     int save_errno;
 

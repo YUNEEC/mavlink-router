@@ -70,6 +70,7 @@ static const struct option long_options[] = {
 };
 
 static const char* short_options = "he:rt:c:d:l:p:g:vV";
+static const char* program_invocation_short_name;
 
 static void help(FILE *fp) {
     fprintf(fp,
@@ -889,6 +890,10 @@ fail:
 
 int main(int argc, char *argv[])
 {
+    program_invocation_short_name = strrchr(argv[0], '/');
+    if (!program_invocation_short_name)
+        program_invocation_short_name = argv[0];
+
     Mainloop &mainloop = Mainloop::init();
 
     Log::open();

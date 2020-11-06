@@ -17,7 +17,9 @@
  */
 #pragma once
 
+#ifndef __ANDROID__
 #include <aio.h>
+#endif
 #include <assert.h>
 #include <dirent.h>
 
@@ -62,7 +64,9 @@ protected:
     Timeout *_fsync_timeout = nullptr;
     Timeout *_alive_check_timeout = nullptr;
     uint32_t _timeout_write_total = 0;
+#ifndef __ANDROID__
     aiocb _fsync_cb = {};
+#endif
 
     virtual const char *_get_logfile_extension() = 0;
 

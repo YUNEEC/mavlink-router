@@ -23,6 +23,7 @@
 
 int reset_uart(int fd)
 {
+#ifndef __ANDROID__
     struct termios tc = {};
     /* See termios(3) */
     const cc_t default_cc[] = { 03, 034, 0177, 025, 04, 0, 0, 0, 021, 023, 032, 0,
@@ -59,6 +60,6 @@ int reset_uart(int fd)
     if (tcsetattr(fd, TCSANOW, &tc) < 0) {
         return -1;
     }
-
+#endif
     return 0;
 }

@@ -53,6 +53,7 @@ LogEndpoint::LogEndpoint(const char *name, const char *logs_dir, LogMode mode,
 {
     assert(_logs_dir);
     _add_sys_comp_id(LOG_ENDPOINT_SYSTEM_ID << 8);
+#ifndef __ANDROID__
     _fsync_cb.aio_fildes = -1;
 
 #if HAVE_DECL_AIO_INIT
@@ -62,6 +63,7 @@ LogEndpoint::LogEndpoint(const char *name, const char *logs_dir, LogMode mode,
     aio_init_data.aio_idle_time = 3; // make sure to keep the thread running
     aio_init(&aio_init_data);
 #endif
+#endif // __ANDROID__
 }
 
 void LogEndpoint::_send_msg(const mavlink_message_t *msg, int target_sysid)
@@ -323,7 +325,9 @@ void LogEndpoint::stop()
     fsync(_file);
     close(_file);
     _file = -1;
+#ifndef __ANDROID__
     _fsync_cb.aio_fildes = -1;
+#endif
 
     // change file permissions to read-only to mark them as finished
     char log_file[PATH_MAX];
@@ -392,6 +396,7 @@ bool LogEndpoint::_alive_timeout()
 
 bool LogEndpoint::_fsync()
 {
+#ifndef __ANDROID__
     if (_file < 0) {
         return false;
     }
@@ -404,7 +409,7 @@ bool LogEndpoint::_fsync()
     _fsync_cb.aio_sigevent.sigev_notify = SIGEV_NONE;
 
     aio_fsync(O_SYNC, &_fsync_cb);
-
+#endif
     return true;
 }
 
