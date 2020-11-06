@@ -397,6 +397,30 @@ bool Mainloop::add_endpoints(Mainloop &mainloop, struct options *opt)
                     return false;
             }
 
+            if (conf->filter) {
+                char *token = strtok(conf->filter, ",");
+                while (token != NULL) {
+                    uart->add_message_to_filter(atoi(token));
+                    token = strtok(NULL, ",");
+                } 
+            }
+
+            if (conf->filterout) {
+                char *token = strtok(conf->filterout, ",");
+                while (token != NULL) {
+                    uart->add_message_to_filterout(atoi(token));
+                    token = strtok(NULL, ",");
+                } 
+            }
+
+            if (conf->syscompid) {
+                char *token = strtok(conf->syscompid, ",");
+                while (token != NULL) {
+                    uart->add_sys_comp_id(atoi(token));
+                    token = strtok(NULL, ",");
+                } 
+            }
+
             g_endpoints[i] = uart.release();
             mainloop.add_fd(g_endpoints[i]->fd, g_endpoints[i], EPOLLIN);
             i++;
@@ -421,6 +445,14 @@ bool Mainloop::add_endpoints(Mainloop &mainloop, struct options *opt)
                 char *token = strtok(conf->filterout, ",");
                 while (token != NULL) {
                     udp->add_message_to_filterout(atoi(token));
+                    token = strtok(NULL, ",");
+                } 
+            }
+
+            if (conf->syscompid) {
+                char *token = strtok(conf->syscompid, ",");
+                while (token != NULL) {
+                    udp->add_sys_comp_id(atoi(token));
                     token = strtok(NULL, ",");
                 } 
             }

@@ -124,6 +124,7 @@ struct endpoint_config {
     };
     char *filter;
     char *filterout;
+    char *syscompid;
 };
 
 struct options {
