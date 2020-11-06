@@ -417,6 +417,14 @@ bool Mainloop::add_endpoints(Mainloop &mainloop, struct options *opt)
                 } 
             }
 
+            if (conf->filterout) {
+                char *token = strtok(conf->filterout, ",");
+                while (token != NULL) {
+                    udp->add_message_to_filterout(atoi(token));
+                    token = strtok(NULL, ",");
+                } 
+            }
+
             g_endpoints[i] = udp.release();
             mainloop.add_fd(g_endpoints[i]->fd, g_endpoints[i], EPOLLIN);
             i++;

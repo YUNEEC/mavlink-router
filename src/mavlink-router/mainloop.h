@@ -123,6 +123,7 @@ struct endpoint_config {
         };
     };
     char *filter;
+    char *filterout;
 };
 
 struct options {
