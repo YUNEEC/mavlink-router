@@ -96,7 +96,6 @@ public:
         return has_sys_comp_id(sys_comp_id);
     }
     void add_sys_comp_id(uint16_t sys_comp_id) {
-        _dynamic_sys_comp_ids = false;
         _add_sys_comp_id(sys_comp_id);
     }
 
@@ -144,7 +143,6 @@ protected:
 
     uint32_t _incomplete_msgs = 0;
     std::vector<uint16_t> _sys_comp_ids;
-    bool _dynamic_sys_comp_ids = true;
 
 private:
     std::vector<uint32_t> _message_filter;

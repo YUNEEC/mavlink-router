@@ -286,9 +286,6 @@ int Endpoint::read_msg(struct buffer *pbuf, int *target_sysid, int *target_compi
 
 void Endpoint::_add_sys_comp_id(uint16_t sys_comp_id)
 {
-    if (!_dynamic_sys_comp_ids)
-        return;
-
     if (has_sys_comp_id(sys_comp_id))
         return;
 
