@@ -416,7 +416,12 @@ bool Mainloop::add_endpoints(Mainloop &mainloop, struct options *opt)
             if (conf->syscompid) {
                 char *token = strtok(conf->syscompid, ",");
                 while (token != NULL) {
-                    uart->add_sys_comp_id(atoi(token));
+                    int id = atoi(token);
+                    if (id > 0) {
+                        uart->add_sys_comp_id(id);
+                    } else {
+                        uart->set_static_sys_comp_id();
+                    }
                     token = strtok(NULL, ",");
                 } 
             }
@@ -452,7 +457,12 @@ bool Mainloop::add_endpoints(Mainloop &mainloop, struct options *opt)
             if (conf->syscompid) {
                 char *token = strtok(conf->syscompid, ",");
                 while (token != NULL) {
-                    udp->add_sys_comp_id(atoi(token));
+                    int id = atoi(token);
+                    if (id > 0) {
+                        udp->add_sys_comp_id(id);
+                    } else {
+                        udp->set_static_sys_comp_id();
+                    }
                     token = strtok(NULL, ",");
                 } 
             }

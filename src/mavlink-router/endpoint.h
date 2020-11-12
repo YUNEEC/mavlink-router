@@ -98,6 +98,9 @@ public:
     void add_sys_comp_id(uint16_t sys_comp_id) {
         _add_sys_comp_id(sys_comp_id);
     }
+    void set_static_sys_comp_id() {
+        _static_sys_comp_id = true;
+    }
 
     bool accept_msg(int target_sysid, int target_compid, uint8_t src_sysid, uint8_t src_compid, uint32_t msg_id);
 
@@ -143,6 +146,7 @@ protected:
 
     uint32_t _incomplete_msgs = 0;
     std::vector<uint16_t> _sys_comp_ids;
+    bool _static_sys_comp_id = false;
 
 private:
     std::vector<uint32_t> _message_filter;

@@ -230,11 +230,15 @@ int Endpoint::read_msg(struct buffer *pbuf, int *target_sysid, int *target_compi
             _stat.read.crc_error_bytes += expected_size;
             return 0;
         }
+
         _add_sys_comp_id(((uint16_t)*src_sysid << 8) | *src_compid);
     }
 
     _stat.read.handled++;
     _stat.read.handled_bytes += expected_size;
+
+    if (_static_sys_comp_id && !has_sys_comp_id(((uint16_t)*src_sysid << 8) | *src_compid))
+        return 0;
 
     *target_sysid = -1;
     *target_compid = -1;
@@ -286,6 +290,9 @@ int Endpoint::read_msg(struct buffer *pbuf, int *target_sysid, int *target_compi
 
 void Endpoint::_add_sys_comp_id(uint16_t sys_comp_id)
 {
+    if (_static_sys_comp_id)
+        return;
+
     if (has_sys_comp_id(sys_comp_id))
         return;
 
