@@ -36,5 +36,12 @@ target_compile_options(
 
 target_link_libraries(
     ${module_name}
-    log
+    -lrt
 )
+
+if(CMAKE_ANDROID_NDK)
+ target_link_libraries(
+    ${module_name}
+    log
+ )
+endif()
