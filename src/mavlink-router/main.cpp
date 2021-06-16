@@ -70,7 +70,7 @@ static const struct option long_options[] = {
 };
 
 static const char* short_options = "he:rt:c:d:l:p:g:vV";
-static const char* program_invocation_short_name;
+static const char* invocation_short_name;
 
 static void help(FILE *fp) {
     fprintf(fp,
@@ -96,7 +96,7 @@ static void help(FILE *fp) {
             "  -v --verbose                 Verbose. Same as --debug-log-level=debug\n"
             "  -V --version                 Show version\n"
             "  -h --help                    Print this message\n"
-            , program_invocation_short_name);
+            , invocation_short_name);
 }
 
 static unsigned long find_next_endpoint_port(const char *ip)
@@ -940,9 +940,9 @@ fail:
 
 int main(int argc, char *argv[])
 {
-    program_invocation_short_name = strrchr(argv[0], '/');
-    if (!program_invocation_short_name)
-        program_invocation_short_name = argv[0];
+    invocation_short_name = strrchr(argv[0], '/');
+    if (!invocation_short_name)
+        invocation_short_name = argv[0];
 
     Mainloop &mainloop = Mainloop::init();
 
